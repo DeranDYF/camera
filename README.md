@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="dyfzn.png" width="400"></a></p>
+<p align="center"><a href="https://instagram.com/derandyfzn_" target="_blank"><img src="./public/assets/img/dyfzn.png" width="400"></a></p>
 
 
 terdapat beberapa hal yang perlu dilakukan:
