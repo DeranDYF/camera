@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Equipment;
+use App\Models\Categories;
 use App\Models\ImgEquipment;
 use Illuminate\Http\Request;
-use App\Models\Categories;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
