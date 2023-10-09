@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2023 at 09:40 AM
+-- Generation Time: Oct 09, 2023 at 06:51 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 7.4.30
 
@@ -44,6 +44,22 @@ CREATE TABLE `carousels` (
 INSERT INTO `carousels` (`id`, `title`, `descriptions`, `img`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (8, 'Special Price', 'New Event Special Discount Price', 'sX5oq7rvm6VAeGiehE4GIEMpcsSjIYFzzQIdItCa.jpg', '2023-07-11 01:30:59', '2023-07-11 01:30:59', NULL),
 (9, 'New Item', 'New Item Camera', 'hMdw5XTy4DoLiqKv48BEaLTvqiUUiUsYcHY2VQsn.jpg', '2023-07-11 01:31:18', '2023-07-11 01:31:18', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `id_cart` int(11) NOT NULL,
+  `id_equipment` int(11) NOT NULL,
+  `id_users` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -219,6 +235,23 @@ INSERT INTO `roles` (`id`, `name`, `descriptions`, `created_at`, `updated_at`, `
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sales`
+--
+
+CREATE TABLE `sales` (
+  `id_sales` int(11) NOT NULL,
+  `id_equipment` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -229,6 +262,11 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id_state` int(11) NOT NULL,
+  `zip_code` varchar(6) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `picture` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -238,9 +276,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `id_role`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(3, 1, 'Deran Deriyana F', 'deran.deriyana@gmail.com', NULL, '$2y$10$Oo5ryVRTVTbbuibGpe/4M.TcaRQCu5nhloSxJ4ATHNI0PjL3Q50GG', 'o1sYcYtrL5If9B9Kr8QQn4bjCSvffQ6Zp6OM1q32fT0oAO0b3z05Kpg330JY', '2023-05-04 23:44:25', '2023-05-04 23:44:25'),
-(23, 2, 'Zefanya Erina Nurazyka', 'zefanya.erina@gmail.com', NULL, '$2y$10$WVrubEf9pl3XILFUcTaHRed5lMXKQcHGUbehgbYMnahlbQQnIhhxq', NULL, '2023-09-28 21:14:53', '2023-09-28 21:14:53');
+INSERT INTO `users` (`id`, `id_role`, `name`, `email`, `email_verified_at`, `password`, `phone`, `address`, `id_state`, `zip_code`, `picture`, `remember_token`, `created_at`, `updated_at`) VALUES
+(3, 1, 'Deran Deriyana F', 'deran.deriyana@gmail.com', NULL, '$2y$10$Oo5ryVRTVTbbuibGpe/4M.TcaRQCu5nhloSxJ4ATHNI0PjL3Q50GG', '', '', 0, '', '', 'o1sYcYtrL5If9B9Kr8QQn4bjCSvffQ6Zp6OM1q32fT0oAO0b3z05Kpg330JY', '2023-05-04 23:44:25', '2023-05-04 23:44:25'),
+(23, 2, 'Zefanya Erina Nurazyka', 'zefanya.erina@gmail.com', NULL, '$2y$10$WVrubEf9pl3XILFUcTaHRed5lMXKQcHGUbehgbYMnahlbQQnIhhxq', '', '', 0, '', '', NULL, '2023-09-28 21:14:53', '2023-09-28 21:14:53');
 
 --
 -- Indexes for dumped tables
@@ -251,6 +289,14 @@ INSERT INTO `users` (`id`, `id_role`, `name`, `email`, `email_verified_at`, `pas
 --
 ALTER TABLE `carousels`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id_cart`),
+  ADD KEY `id_equipment` (`id_equipment`),
+  ADD KEY `id_users` (`id_users`);
 
 --
 -- Indexes for table `categories`
@@ -306,6 +352,14 @@ ALTER TABLE `roles`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+  ADD PRIMARY KEY (`id_sales`),
+  ADD KEY `id_equipment` (`id_equipment`),
+  ADD KEY `id_user` (`id_user`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -322,6 +376,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `carousels`
   MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `id_cart` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -366,6 +426,12 @@ ALTER TABLE `roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `sales`
+--
+ALTER TABLE `sales`
+  MODIFY `id_sales` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -374,6 +440,13 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`id_equipment`) REFERENCES `equipment` (`id`),
+  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`id_users`) REFERENCES `equipment` (`id`);
 
 --
 -- Constraints for table `equipment`
@@ -386,6 +459,13 @@ ALTER TABLE `equipment`
 --
 ALTER TABLE `img_equipment`
   ADD CONSTRAINT `img_equipment_ibfk_1` FOREIGN KEY (`id_equipment`) REFERENCES `equipment` (`id`);
+
+--
+-- Constraints for table `sales`
+--
+ALTER TABLE `sales`
+  ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`id_equipment`) REFERENCES `equipment` (`id`),
+  ADD CONSTRAINT `sales_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `equipment` (`id`);
 
 --
 -- Constraints for table `users`
